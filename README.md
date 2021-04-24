@@ -1,6 +1,6 @@
 ### Hi.. Welcome to our Mini hack. (Find the bug and solve it)
 
-### This is a very simple movie application with 2 screens.
+### This is a very simple movie application with 2 screens that fetch data from internet and display it.
 
 <p align="center">
   <img src="img/1.png" height ="330" width="180" >
