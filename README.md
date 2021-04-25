@@ -26,5 +26,3 @@ Start cloning our source code in this repo. [watch this video](https://youtu.be/
 ## How to submit your answer?
 Upload the modified project(answer) to your github account and submit the repo link in the Google Form sheet that we will provide it for you soon.     
 `Hint: How to upload the modified project to github`[watch this video](https://youtu.be/Zx74laLnFvw)
-
-
