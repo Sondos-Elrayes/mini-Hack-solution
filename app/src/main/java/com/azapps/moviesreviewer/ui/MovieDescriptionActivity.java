@@ -1,5 +1,7 @@
 package com.azapps.moviesreviewer.ui;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -11,9 +13,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import com.azapps.moviesreviewer.R;
 import com.azapps.moviesreviewer.pojo.Results;
 import com.bumptech.glide.Glide;
@@ -28,6 +33,8 @@ public class MovieDescriptionActivity extends AppCompatActivity {
     private Button btSave;
     private OutputStream outputStream;
     private TextView title, date, rateNumber, description;
+    private static int REQUEST_CODE = 100;
+
 
 
     @Override
@@ -50,35 +57,20 @@ public class MovieDescriptionActivity extends AppCompatActivity {
         btSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BitmapDrawable bitmapDrawable = (BitmapDrawable) cover.getDrawable();
-                Bitmap bitmap = bitmapDrawable.getBitmap();
 
-                File filePath  = Environment.getExternalStorageDirectory();
-                File dir = new File(filePath.getAbsolutePath()+"/Demo/");
-                dir.mkdir();
-                File file = new File(dir,System.currentTimeMillis()+".jpg");
-                try {
-                    outputStream = new FileOutputStream(file );
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                bitmap.compress(Bitmap.CompressFormat.JPEG,100,outputStream);
-                Toast.makeText(getApplicationContext(), "Image saved    ", Toast.LENGTH_SHORT).show();
-                try {
-                    outputStream.flush();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    outputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (ContextCompat.checkSelfPermission(MovieDescriptionActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+
+                    saveImage();
+
+                }else {
+
+
+                    askPermission();
+
                 }
 
             }
         });
-
-
         if (getIntent().hasExtra(RESULT_EXTRA)) {
             Results result = (Results) getIntent().getSerializableExtra(RESULT_EXTRA);
 
@@ -92,5 +84,64 @@ public class MovieDescriptionActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Can not load the data", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void askPermission() {
+
+        ActivityCompat.requestPermissions(MovieDescriptionActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_CODE);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull  String[] permissions, @NonNull  int[] grantResults) {
+
+        if (requestCode == REQUEST_CODE)
+        {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                saveImage();
+            }else {
+                Toast.makeText(MovieDescriptionActivity.this,"Please provide the required permissions",Toast.LENGTH_SHORT).show();
+            }
+
+        }
+
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private void saveImage() {
+
+        File dir = new File(Environment.getExternalStorageDirectory(),"SaveImage");
+
+        if (!dir.exists()){
+
+            dir.mkdir();
+        }
+
+        BitmapDrawable drawable = (BitmapDrawable) cover.getDrawable();
+        Bitmap bitmap = drawable.getBitmap();
+
+        File file = new File(dir,System.currentTimeMillis()+".jpg");
+        try {
+            outputStream = new FileOutputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,outputStream);
+        Toast.makeText(MovieDescriptionActivity.this,"Successfuly Saved",Toast.LENGTH_SHORT).show();
+
+        try {
+            outputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
     }
 }
