@@ -37,7 +37,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textAppearance="@android:style/TextAppearance.Large"
-            android:textColor="#000000"
+            android:textColor="#ffffff"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -64,8 +64,6 @@
             android:numStars="1"
             android:stepSize="0.1"
             android:rating="1"
-            android:visibility="invisible"
-            tools:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/release_date" />
@@ -82,6 +80,7 @@
             app:layout_constraintStart_toEndOf="@+id/rating"
             app:layout_constraintTop_toBottomOf="@+id/release_date"
             tools:text="6.1" />
+
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"

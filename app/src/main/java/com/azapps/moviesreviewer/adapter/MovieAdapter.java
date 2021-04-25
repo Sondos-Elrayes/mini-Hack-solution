@@ -42,8 +42,9 @@ public class MovieAdapter extends ListAdapter<Results, MovieViewHolder> {
         //holder.cardView.setAnimation(AnimationUtils.loadAnimation(context,android.R.anim.fade_in));
         Uri image_url = Uri.parse(currentMovie.getPoster_path());
         Glide.with(context).load(image_url).into(holder.movieImageView);
+        holder.titleTV.setText(currentMovie.getTitle());
         holder.releaseDateTV.setText(currentMovie.getRelease_date());
-        holder.ratingTv.setText(Integer.parseInt(currentMovie.getVote_average()));
+        holder.ratingTv.setText(currentMovie.getVote_average());
         setAnimation(holder.cardView, position);
     }
 

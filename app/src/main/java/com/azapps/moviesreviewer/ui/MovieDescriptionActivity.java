@@ -24,8 +24,8 @@ public class MovieDescriptionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        backArrow = findViewById(R.id.back_arrow);
         setContentView(R.layout.activity_movie_description);
+        backArrow = findViewById(R.id.back_arrow);
         backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,7 +47,7 @@ public class MovieDescriptionActivity extends AppCompatActivity {
 
             title.setText(result.getTitle());
             date.setText(result.getRelease_date());
-            rateNumber.setText(Integer.parseInt(result.getVote_average()));
+            rateNumber.setText(result.getVote_average());
             description.setText(result.getOverview());
         } else {
             Toast.makeText(this, "Can not load the data", Toast.LENGTH_SHORT).show();
